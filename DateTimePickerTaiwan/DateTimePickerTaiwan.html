@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>DateTimePickerTaiwan</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap-datetimepicker/css/bootstrap-datetimepicker.css">
+</head>
+<body>
+    <div class="container">
+        <div class="well">
+            <!--(1)-->
+            <form role="form">
+                <div class="input-group">
+                    <label for="start" class="input-group-addon">開始：</label>
+                    <input type='text' class="form-control oridate" id='oristart' name="start" placeholder="請輸入日期" style="background-color:white;" value="2017/04/10 13:14" />
+                </div>
+                <br />
+                <div class="input-group">
+                    <label for="end" class="input-group-addon">結束：</label>
+                    <input type='text' class="form-control oridate" id='oriend' name="end" placeholder="請輸入日期" style="background-color:white;" value="2017/04/12" />
+                </div>
+                <br />
+                <div>
+                    <button type="button" class="btn btn-block btn-primary" data-id="oridateSubmit">儲存</button>
+                </div>
+            </form>
+        </div>
+        <div id="oridateDiv" class="row">
+            <div class="col-md-6"></div><div class="col-md-6"></div>
+        </div>
+        <br>
+
+        <div class="well">
+            <!--(2)-->
+            <form role="form">
+                <div class="input-group">
+                    <label for="start" class="input-group-addon">開始：</label>
+                    <input type='text' class="form-control date" id='start' name="start" placeholder="請輸入日期" style="background-color:white;" value="2017/04/14" />
+                </div>
+                <br />
+                <div class="input-group">
+                    <label for="end" class="input-group-addon">結束：</label>
+                    <input type='text' class="form-control date" id='end' name="end" placeholder="___/__/__ __:__" style="background-color:white;" />
+                </div>
+                <br />
+                <div>
+                    <button type="button" class="btn btn-block btn-primary" data-id="dateSubmit">儲存</button>
+                </div>
+            </form>
+        </div>
+        <div id="dateDiv" class="row">
+            <div class="col-md-6"></div><div class="col-md-6"></div>
+        </div>
+    </div>
+
+    <script src=jquery-1.9.1.js></script>
+    <script src=bootstrap/js/bootstrap.js></script>
+    <script src=moment/moment.js></script>
+    <script src=moment/moment-taiwan.js></script>
+    <script src=bootstrap-datetimepicker/js/bootstrap-datetimepicker.js></script>
+    <script src=bootstrap-datetimepicker/js/bootstrap-datetimepickerTaiwan.js></script><!--目前還沒完成手動打上數字時的處理 所以用readonly狀態-->
+    <script src="jQuery-Mask-Plugin\jquery.mask.js"></script>
+    <script>
+        $(function () {
+            //(1)form
+            $('.oridate').datetimepicker({
+                locale: 'zh-tw',
+                useCurrent: false,
+                //ignoreReadonly: true,
+                format: 'YYYY/MM/DD HH:mm',
+                //minDate: "1912/01/01",
+                //maxDate: moment().add(100, 'Y'),
+                //sideBySide: true,
+                //dayViewHeaderFormat: 'tYY MMMM',
+                //icons: {
+                //    time: 'glyphicon glyphicon-time',
+                //    date: 'glyphicon glyphicon-calendar',
+                //    up: 'glyphicon glyphicon-plus',
+                //    down: 'glyphicon glyphicon-minus',
+                //    previous: 'glyphicon glyphicon-chevron-left',
+                //    next: 'glyphicon glyphicon-chevron-right',
+                //    today: 'glyphicon glyphicon-screenshot',
+                //    clear: 'glyphicon glyphicon-trash',
+                //    close: 'glyphicon glyphicon-remove'
+                //}
+            });
+
+            $('button[data-id="oridateSubmit"]').on("click", function () {
+                $($("#oridateDiv > div")[0]).html($("#oristart").val());
+                $($("#oridateDiv > div")[1]).html($("#oriend").val());
+            });
+
+
+            //(2)form
+            $('.date').datetimepickerTaiwan({
+                locale: 'zh-tw',
+                useCurrent: false,
+                //ignoreReadonly: true, //readonly="readonly" 狀態下開啟datetimepicker
+                format: 'YYYY/MM/DD HH:mm',
+                minDate: "1912/01/01", //最小可選日期
+                //maxDate: moment().add(100, 'Y'), //最大可選日期
+                dayViewHeaderFormat: 'tYY MMMM' //小日曆標題
+            });
+
+            $('button[data-id="dateSubmit"]').on("click", function () {
+                //送出前 民國轉西元
+                var s = moment($("#start").val(), 'tYY/MM/DD HH:mm');
+                $("#start").val(s.format('YYYY/MM/DD HH:mm'));
+
+                var e = moment($("#end").val(), 'tYY/MM/DD HH:mm');
+                $("#end").val(e.format('YYYY/MM/DD HH:mm'));
+
+                $($("#dateDiv > div")[0]).html($("#start").val());
+                $($("#dateDiv > div")[1]).html($("#end").val());
+
+                //發送成功如果畫面還需要顯示得再將val轉回
+                $("#start").val(s.format('tYY/MM/DD HH:mm'));
+                $("#end").val(e.format('tYY/MM/DD HH:mm'));
+            });
+
+            $("#end").mask("000/00/00 00:00");
+        });
+    </script>
+</body>
+</html>
