@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -104,19 +104,28 @@
             });
 
             $('button[data-id="dateSubmit"]').on("click", function () {
+
+
                 //送出前 民國轉西元
-                var s = moment($("#start").val(), 'tYY/MM/DD HH:mm');
-                $("#start").val(s.format('YYYY/MM/DD HH:mm'));
+                //var s = moment($("#start").val(), 'tYY/MM/DD HH:mm');
+                //$("#start").val(s.format('YYYY/MM/DD HH:mm'));
 
-                var e = moment($("#end").val(), 'tYY/MM/DD HH:mm');
-                $("#end").val(e.format('YYYY/MM/DD HH:mm'));
+                //var e = moment($("#end").val(), 'tYY/MM/DD HH:mm');
+                //$("#end").val(e.format('YYYY/MM/DD HH:mm'));
 
-                $($("#dateDiv > div")[0]).html($("#start").val());
-                $($("#dateDiv > div")[1]).html($("#end").val());
+                //$($("#dateDiv > div")[0]).html($("#start").val());
+                //$($("#dateDiv > div")[1]).html($("#end").val());
 
-                //發送成功如果畫面還需要顯示得再將val轉回
-                $("#start").val(s.format('tYY/MM/DD HH:mm'));
-                $("#end").val(e.format('tYY/MM/DD HH:mm'));
+                ////發送成功如果畫面還需要顯示得再將val轉回
+                //$("#start").val(s.format('tYY/MM/DD HH:mm'));
+                //$("#end").val(e.format('tYY/MM/DD HH:mm'));
+
+
+                //亦可使用 DateTimePicker 的 Functions 來取得內存時間
+                var s = $('#start').data("DateTimePicker").date() ? $('#start').data("DateTimePicker").date().format('YYYY/MM/DD HH:mm') : "沒有值";
+                var e = $('#end').data("DateTimePicker").date() ? $('#end').data("DateTimePicker").date().format('YYYY/MM/DD HH:mm') : "沒有值";
+                $($("#dateDiv > div")[0]).html(s);
+                $($("#dateDiv > div")[1]).html(e);
             });
 
             $("#end").mask("000/00/00 00:00");
